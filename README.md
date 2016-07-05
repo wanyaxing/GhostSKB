@@ -1,5 +1,5 @@
 # GhostSKB
-Smart Keyboard Switcher like a ghost
+Smart inputmethod Switcher like a ghost.
 
 ![logo of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/ghostkbd-256.png)
 
