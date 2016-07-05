@@ -1,7 +1,7 @@
 # GhostSKB
 Smart inputmethod Switcher like a ghost.
 
-![logo of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/ghostkbd-256.png)
+![logo of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/ghostkbd-256.png)
 
 # Description
 
@@ -16,4 +16,4 @@ Mac OS X 10.8 or above
 
 # Screenshot
 
-![screenshot of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/screenshot.png)
+![screenshot of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/screenshot.png)
