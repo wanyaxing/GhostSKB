@@ -17,3 +17,6 @@ Mac OS X 10.8 or above
 # Screenshot
 
 ![screenshot of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/screenshot.png)
+
+# Known Issues
+1. This app will be conflicted with OS X setting "Allow a different one for each document".
