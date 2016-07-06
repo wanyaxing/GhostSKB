@@ -66,7 +66,7 @@
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[thisID description],@"id", [inputName description], @"inputName", nil];
             
             [self.availableInputMethods addObject:dict];
-            [_inputIdInfo setObject:[NSString stringWithFormat:@"%d", i] forKey:[thisID description]];
+            [_inputIdInfo setObject:[NSString stringWithFormat:@"%lu", [self.availableInputMethods count] - 1] forKey:[thisID description]];
         }
     }
     
