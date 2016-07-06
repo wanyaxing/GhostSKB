@@ -26,20 +26,20 @@
 @synthesize defaultKeyBoards;
 @synthesize availableInputMethods;
 
+//This method will be invoked after viewDidLoad every time when view show up
 - (void)viewWillAppear {
     [super viewWillAppear];
-//    NSLog(@"view will appear");
-    
+    [self getAlivibleInputMethods];
 }
 
+// This method only be invoked once
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    NSLog(@"view did load");
+    
     self.availableInputMethods = [[NSMutableArray alloc] initWithCapacity:1];
     [self getAlivibleInputMethods];
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    //    _tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
     _tableView.headerView = NULL;
     self.defaultKeyBoards = [[GHDefaultManager getInstance] getDefaultKeyBoards];
     
@@ -49,6 +49,7 @@
 }
 
 - (void) getAlivibleInputMethods {
+    [self.availableInputMethods removeAllObjects];
     NSString *inputID;
     NSMutableString *thisID;
     CFArrayRef availableInputs = TISCreateInputSourceList(NULL, false);
@@ -69,9 +70,8 @@
             [_inputIdInfo setObject:[NSString stringWithFormat:@"%d", i] forKey:[thisID description]];
         }
     }
-    
-
 }
+
 
 #pragma mark - table view datasource
 
