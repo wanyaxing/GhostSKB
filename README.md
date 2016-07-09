@@ -18,5 +18,8 @@ Mac OS X 10.8 or above
 
 ![screenshot of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/screenshot.png)
 
+# Todo
+1. Remember recently used input method of app (with timeout configured), when it is not expired, switch to the recently used input method.
+
 # Known Issues
 1. This app will be conflicted with OS X setting "Allow a different one for each document".
