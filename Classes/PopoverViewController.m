@@ -62,8 +62,14 @@
         CFStringRef type = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceCategory);
         if (!CFStringCompare(type, kTISCategoryKeyboardInputSource, 0)) {
             thisID = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID));
+            NSString *canSelectStr = (__bridge NSString *)TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceIsSelectCapable);
+            Boolean canSelect = [canSelectStr boolValue];
+            if (!canSelect) {
+                continue;
+            }
             
             NSMutableString *inputName = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName));
+            
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[thisID description],@"id", [inputName description], @"inputName", nil];
             
             [self.availableInputMethods addObject:dict];
