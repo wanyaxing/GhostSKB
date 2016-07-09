@@ -131,7 +131,6 @@
 		DE6634771CB21551009EE247 = {
 			isa = PBXGroup;
 			children = (
-				DE1B71BB1D2C082F00A85EE0 /* GHDefaultManager.m */,
 				DE1B71BC1D2C082F00A85EE0 /* GHInputAddDefaultCellView.h */,
 				DE1B71BD1D2C082F00A85EE0 /* GHInputAddDefaultCellView.m */,
 				DE1B71BE1D2C082F00A85EE0 /* GHInputDefaultCellView.h */,
@@ -143,6 +142,7 @@
 				DE1B71C41D2C082F00A85EE0 /* GHDefaultInfo.h */,
 				DE1B71C51D2C082F00A85EE0 /* GHDefaultInfo.m */,
 				DE1B71C61D2C082F00A85EE0 /* GHDefaultManager.h */,
+				DE1B71BB1D2C082F00A85EE0 /* GHDefaultManager.m */,
 				DE1B71BA1D2C082300A85EE0 /* Resouces */,
 				DE6634B21CB21890009EE247 /* AppKit.framework */,
 				DE6634821CB21552009EE247 /* GhostSKB */,

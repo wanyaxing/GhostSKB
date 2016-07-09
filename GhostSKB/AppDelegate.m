@@ -25,6 +25,8 @@
     
     NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
     [nc addObserver:self selector:@selector(handleAppActivateNoti:) name:NSWorkspaceDidActivateApplicationNotification object:NULL];
+    [nc addObserver:self selector:@selector(handleAppDeactiveNoti:) name:NSWorkspaceDidDeactivateApplicationNotification object:NULL];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleGHAppSelectedNoti:) name:@"GH_APP_SELECTED" object:NULL];
     [GHDefaultManager getInstance];
@@ -83,16 +85,11 @@
     }
 }
 
-- (void) handleAppActivateNoti:(NSNotification *)noti {
-    NSRunningApplication *runningApp = (NSRunningApplication *)[noti.userInfo objectForKey:@"NSWorkspaceApplicationKey"];
-    NSDictionary *defaultInput = [[GHDefaultManager getInstance] getDefaultKeyBoardsDict];
-    NSString *bundleIdentifier = runningApp.bundleIdentifier;
-    
-    NSDictionary *info = [defaultInput objectForKey:bundleIdentifier];
-    
-    if (info != NULL) {
-        [self changeInputSource:[[info objectForKey:@"defaultInput"] description]];
-    }
+- (NSMutableString *)getCurrentInputSourceId
+{
+    TISInputSourceRef inputSource = TISCopyCurrentKeyboardInputSource();
+    NSMutableString *inputId = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID));
+    return inputId;
 }
 
 - (void)changeInputSource:(NSString *)inputId
@@ -114,7 +111,35 @@
             }
         }
     }
+}
 
+- (void) handleAppDeactiveNoti:(NSNotification *)noti {
+    NSDictionary *userInfo = [noti userInfo];
+    NSRunningApplication *runningApp = (NSRunningApplication *)[noti.userInfo objectForKey:@"NSWorkspaceApplicationKey"];
+    NSString *identifier = runningApp.bundleIdentifier;
+    [[GHDefaultManager getInstance] recordAppLastInputSourceId:identifier inputId:_lastAppInputSourceId];
+}
+
+- (void) handleAppActivateNoti:(NSNotification *)noti {
+    
+    _lastAppInputSourceId = [self getCurrentInputSourceId];
+    NSRunningApplication *runningApp = (NSRunningApplication *)[noti.userInfo objectForKey:@"NSWorkspaceApplicationKey"];
+    NSString *bundleIdentifier = runningApp.bundleIdentifier;
+    
+    NSString *lastUsedInputId = [[GHDefaultManager getInstance] getAppLastInputSourceId:bundleIdentifier];
+    NSString *targetInputId = NULL;
+    if (lastUsedInputId != NULL) {
+        targetInputId = lastUsedInputId;
+    }
+    else {
+        NSDictionary *defaultInput = [[GHDefaultManager getInstance] getDefaultKeyBoardsDict];
+        NSDictionary *info = [defaultInput objectForKey:bundleIdentifier];
+        targetInputId = [[info objectForKey:@"defaultInput"] description];
+    }
+
+    if (targetInputId != NULL) {
+        [self changeInputSource:targetInputId];
+    }
 }
 - (void) handleGHAppSelectedNoti:(NSNotification *)noti {
     NSDictionary *userInfo = [noti userInfo];

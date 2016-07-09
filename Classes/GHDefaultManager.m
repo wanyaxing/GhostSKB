@@ -79,5 +79,25 @@ static GHDefaultManager *sharedGHDefaultManager = nil;
     }
 }
 
+- (void)recordAppLastInputSourceId:(NSString *)bundleId inputId:(NSString *)inputId
+{
+    NSUserDefaults *nc = [NSUserDefaults standardUserDefaults];
+    time_t timestamp = (time_t)[[NSDate date] timeIntervalSince1970];
+    [nc setInteger:(long)timestamp forKey:[NSString stringWithFormat:@"%@_last_deacitve_time", bundleId]];
+    [nc setObject:inputId forKey:[NSString stringWithFormat:@"%@_last_input_id", bundleId]];
+    [nc synchronize];
+}
+
+- (NSString *)getAppLastInputSourceId:(NSString *)bundleId
+{
+    NSUserDefaults *nc = [NSUserDefaults standardUserDefaults];
+    NSInteger appLastDeactiveTime = [nc integerForKey:[NSString stringWithFormat:@"%@_last_deacitve_time", bundleId]];
+    time_t timestamp = (time_t)[[NSDate date] timeIntervalSince1970];
+    if (timestamp - appLastDeactiveTime > INPUT_CHANGE_EXPIRE_T) {
+        return NULL;
+    }
+    NSString *lastInputId = [nc stringForKey:[NSString stringWithFormat:@"%@_last_input_id", bundleId]];
+    return lastInputId;
+}
 
 @end
