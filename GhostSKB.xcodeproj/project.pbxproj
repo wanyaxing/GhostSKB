@@ -22,8 +22,11 @@
 		DE1B71C81D2C082F00A85EE0 /* GHInputAddDefaultCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1B71BD1D2C082F00A85EE0 /* GHInputAddDefaultCellView.m */; };
 		DE1B71C91D2C082F00A85EE0 /* GHInputDefaultCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1B71BF1D2C082F00A85EE0 /* GHInputDefaultCellView.m */; };
 		DE1B71CA1D2C082F00A85EE0 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1B71C11D2C082F00A85EE0 /* PopoverViewController.m */; };
-		DE1B71CB1D2C082F00A85EE0 /* AppListController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1B71C31D2C082F00A85EE0 /* AppListController.m */; };
 		DE1B71CC1D2C082F00A85EE0 /* GHDefaultInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1B71C51D2C082F00A85EE0 /* GHDefaultInfo.m */; };
+		DE5EC3711D3163C000B51843 /* ChinesePinyinModifer.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5EC3701D3163C000B51843 /* ChinesePinyinModifer.m */; };
+		DE5EC3751D31DCAF00B51843 /* ghostkbd-64.png in Resources */ = {isa = PBXBuildFile; fileRef = DE5EC3741D31DCAF00B51843 /* ghostkbd-64.png */; };
+		DE5EC3771D31DDC200B51843 /* ghostkbd-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = DE5EC3761D31DDC200B51843 /* ghostkbd-1024.png */; };
+		DE5EC37B1D31E21E00B51843 /* ghost_taiji_19.png in Resources */ = {isa = PBXBuildFile; fileRef = DE5EC37A1D31E21E00B51843 /* ghost_taiji_19.png */; };
 		DE6634851CB21552009EE247 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6634841CB21552009EE247 /* AppDelegate.m */; };
 		DE6634881CB21552009EE247 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6634871CB21552009EE247 /* main.m */; };
 		DE66348A1CB21552009EE247 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE6634891CB21552009EE247 /* Assets.xcassets */; };
@@ -67,11 +70,14 @@
 		DE1B71BF1D2C082F00A85EE0 /* GHInputDefaultCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHInputDefaultCellView.m; path = Classes/GHInputDefaultCellView.m; sourceTree = "<group>"; };
 		DE1B71C01D2C082F00A85EE0 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverViewController.h; path = Classes/PopoverViewController.h; sourceTree = "<group>"; };
 		DE1B71C11D2C082F00A85EE0 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopoverViewController.m; path = Classes/PopoverViewController.m; sourceTree = "<group>"; };
-		DE1B71C21D2C082F00A85EE0 /* AppListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppListController.h; path = Classes/AppListController.h; sourceTree = "<group>"; };
-		DE1B71C31D2C082F00A85EE0 /* AppListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppListController.m; path = Classes/AppListController.m; sourceTree = "<group>"; };
 		DE1B71C41D2C082F00A85EE0 /* GHDefaultInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GHDefaultInfo.h; path = Classes/GHDefaultInfo.h; sourceTree = "<group>"; };
 		DE1B71C51D2C082F00A85EE0 /* GHDefaultInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GHDefaultInfo.m; path = Classes/GHDefaultInfo.m; sourceTree = "<group>"; };
 		DE1B71C61D2C082F00A85EE0 /* GHDefaultManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GHDefaultManager.h; path = Classes/GHDefaultManager.h; sourceTree = "<group>"; };
+		DE5EC36F1D3163C000B51843 /* ChinesePinyinModifer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChinesePinyinModifer.h; path = Classes/ChinesePinyinModifer.h; sourceTree = "<group>"; };
+		DE5EC3701D3163C000B51843 /* ChinesePinyinModifer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChinesePinyinModifer.m; path = Classes/ChinesePinyinModifer.m; sourceTree = "<group>"; };
+		DE5EC3741D31DCAF00B51843 /* ghostkbd-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ghostkbd-64.png"; path = "Resources/ghostkbd-64.png"; sourceTree = "<group>"; };
+		DE5EC3761D31DDC200B51843 /* ghostkbd-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ghostkbd-1024.png"; path = "Resources/ghostkbd-1024.png"; sourceTree = "<group>"; };
+		DE5EC37A1D31E21E00B51843 /* ghost_taiji_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ghost_taiji_19.png; path = Resources/ghost_taiji_19.png; sourceTree = "<group>"; };
 		DE6634801CB21552009EE247 /* GhostSKB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhostSKB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE6634831CB21552009EE247 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DE6634841CB21552009EE247 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -113,14 +119,17 @@
 		DE1B71BA1D2C082300A85EE0 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				DE5EC37A1D31E21E00B51843 /* ghost_taiji_19.png */,
 				DE1B71A41D2C081B00A85EE0 /* screenshot.png */,
 				DE1B71A51D2C081B00A85EE0 /* PopoverViewController.xib */,
 				DE1B71A61D2C081B00A85EE0 /* info.png */,
 				DE1B71A71D2C081B00A85EE0 /* ghostkbd-16.png */,
 				DE1B71A81D2C081B00A85EE0 /* ghostkbd-32.png */,
+				DE5EC3741D31DCAF00B51843 /* ghostkbd-64.png */,
 				DE1B71A91D2C081B00A85EE0 /* ghostkbd-128.png */,
 				DE1B71AA1D2C081B00A85EE0 /* ghostkbd-256.png */,
 				DE1B71AB1D2C081B00A85EE0 /* ghostkbd-512.png */,
+				DE5EC3761D31DDC200B51843 /* ghostkbd-1024.png */,
 				DE1B71AC1D2C081B00A85EE0 /* AppListController.xib */,
 				DE1B71AD1D2C081B00A85EE0 /* ghost_dark_19.png */,
 				DE1B71AE1D2C081B00A85EE0 /* ghost_light_19.png */,
@@ -131,14 +140,14 @@
 		DE6634771CB21551009EE247 = {
 			isa = PBXGroup;
 			children = (
+				DE5EC36F1D3163C000B51843 /* ChinesePinyinModifer.h */,
+				DE5EC3701D3163C000B51843 /* ChinesePinyinModifer.m */,
 				DE1B71BC1D2C082F00A85EE0 /* GHInputAddDefaultCellView.h */,
 				DE1B71BD1D2C082F00A85EE0 /* GHInputAddDefaultCellView.m */,
 				DE1B71BE1D2C082F00A85EE0 /* GHInputDefaultCellView.h */,
 				DE1B71BF1D2C082F00A85EE0 /* GHInputDefaultCellView.m */,
 				DE1B71C01D2C082F00A85EE0 /* PopoverViewController.h */,
 				DE1B71C11D2C082F00A85EE0 /* PopoverViewController.m */,
-				DE1B71C21D2C082F00A85EE0 /* AppListController.h */,
-				DE1B71C31D2C082F00A85EE0 /* AppListController.m */,
 				DE1B71C41D2C082F00A85EE0 /* GHDefaultInfo.h */,
 				DE1B71C51D2C082F00A85EE0 /* GHDefaultInfo.m */,
 				DE1B71C61D2C082F00A85EE0 /* GHDefaultManager.h */,
@@ -288,12 +297,15 @@
 				DE1B71B61D2C081B00A85EE0 /* ghostkbd-512.png in Resources */,
 				DE1B71B21D2C081B00A85EE0 /* ghostkbd-16.png in Resources */,
 				DE1B71B41D2C081B00A85EE0 /* ghostkbd-128.png in Resources */,
+				DE5EC37B1D31E21E00B51843 /* ghost_taiji_19.png in Resources */,
+				DE5EC3751D31DCAF00B51843 /* ghostkbd-64.png in Resources */,
 				DE1B71B91D2C081B00A85EE0 /* ghost_light_19.png in Resources */,
 				DE1B71B01D2C081B00A85EE0 /* PopoverViewController.xib in Resources */,
 				DE1B71B11D2C081B00A85EE0 /* info.png in Resources */,
 				DE66348A1CB21552009EE247 /* Assets.xcassets in Resources */,
 				DE1B71AF1D2C081B00A85EE0 /* screenshot.png in Resources */,
 				DE1B71B71D2C081B00A85EE0 /* AppListController.xib in Resources */,
+				DE5EC3771D31DDC200B51843 /* ghostkbd-1024.png in Resources */,
 				DE1B71B31D2C081B00A85EE0 /* ghostkbd-32.png in Resources */,
 				DE1B71B51D2C081B00A85EE0 /* ghostkbd-256.png in Resources */,
 				DE66348D1CB21552009EE247 /* MainMenu.xib in Resources */,
@@ -323,11 +335,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE1B71CA1D2C082F00A85EE0 /* PopoverViewController.m in Sources */,
-				DE1B71CB1D2C082F00A85EE0 /* AppListController.m in Sources */,
 				DE1B71CC1D2C082F00A85EE0 /* GHDefaultInfo.m in Sources */,
 				DE6634881CB21552009EE247 /* main.m in Sources */,
 				DE1B71C71D2C082F00A85EE0 /* GHDefaultManager.m in Sources */,
 				DE1B71C91D2C082F00A85EE0 /* GHInputDefaultCellView.m in Sources */,
+				DE5EC3711D3163C000B51843 /* ChinesePinyinModifer.m in Sources */,
 				DE1B71C81D2C082F00A85EE0 /* GHInputAddDefaultCellView.m in Sources */,
 				DE6634851CB21552009EE247 /* AppDelegate.m in Sources */,
 			);

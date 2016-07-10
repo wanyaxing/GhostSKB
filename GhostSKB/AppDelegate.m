@@ -7,10 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import <AppKit/AppKit.h>
 #import "PopoverViewController.h"
 #import "GHDefaultManager.h"
+
+#import <AppKit/AppKit.h>
 #import <Carbon/Carbon.h>
+#import <ApplicationServices/ApplicationServices.h>
 @interface AppDelegate ()
 
 
@@ -18,10 +20,24 @@
 
 @implementation AppDelegate
 #pragma mark - App Life Cycle
+
+BOOL checkAccessibility()
+{
+    NSDictionary* opts = @{(__bridge id)kAXTrustedCheckOptionPrompt: @YES};
+    return AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)opts);
+}
+
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-//    [[NSNotificationCenter defaultCenter] addObserver:self forKeyPath:<#(nonnull NSString *)#> options:NSWorkspaceActiveSpaceDidChangeNotification context:NULL]
+    checkAccessibility();
+    _cpm = [[ChinesePinyinModifer alloc] init];
     
+    [NSEvent addGlobalMonitorForEventsMatchingMask:NSFlagsChangedMask handler:^(NSEvent * event) {
+        NSUInteger flag = [event modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+        if (flag == NSShiftKeyMask) {
+            [_cpm changePinyinStatus];
+        }
+    }];
     
     NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
     [nc addObserver:self selector:@selector(handleAppActivateNoti:) name:NSWorkspaceDidActivateApplicationNotification object:NULL];
@@ -51,8 +67,8 @@
 
 - (void)initStatusItem {
     statusItemSelected = false;
-    NSString *imageName = @"ghost_dark_19";
-    NSString *alternateImageName = @"ghost_light_19";
+    NSString *imageName = @"ghost_taiji_19";
+    NSString *alternateImageName = @"ghost_color_19";
     NSImage *normalImage = [NSImage imageNamed:imageName];
     [normalImage setTemplate:YES];
     NSImage *alternateImage = [NSImage imageNamed:alternateImageName];
@@ -99,6 +115,7 @@
     
     CFArrayRef availableInputs = TISCreateInputSourceList(NULL, false);
     NSUInteger count = CFArrayGetCount(availableInputs);
+
     for (int i = 0; i < count; i++) {
         inputSource = (TISInputSourceRef)CFArrayGetValueAtIndex(availableInputs, i);
         CFStringRef type = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceCategory);
@@ -106,15 +123,20 @@
             thisID = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID));
             if ([thisID isEqualToString:inputId]) {
                 OSStatus err = TISSelectInputSource(inputSource);
-                if (err) printf("Error %i\n", (int)err);
+                if (err) {
+                    printf("Error %i\n", (int)err);
+                }
+                else {
+                    _cpm.currentBaseInputSource = inputSource;
+                }
                 break;
             }
+            
         }
     }
 }
 
 - (void) handleAppDeactiveNoti:(NSNotification *)noti {
-    NSDictionary *userInfo = [noti userInfo];
     NSRunningApplication *runningApp = (NSRunningApplication *)[noti.userInfo objectForKey:@"NSWorkspaceApplicationKey"];
     NSString *identifier = runningApp.bundleIdentifier;
     [[GHDefaultManager getInstance] recordAppLastInputSourceId:identifier inputId:_lastAppInputSourceId];
@@ -142,12 +164,12 @@
     }
 }
 - (void) handleGHAppSelectedNoti:(NSNotification *)noti {
-    NSDictionary *userInfo = [noti userInfo];
-    NSURL *appUrl = [userInfo objectForKey:@"appUrl"];
     //get forcus
     [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
     //show popover
     [popover showRelativeToRect:_statusBarButton.bounds ofView:_statusBarButton preferredEdge:NSRectEdgeMaxY];
 }
+
+
 
 @end

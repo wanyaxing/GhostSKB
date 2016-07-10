@@ -50,7 +50,7 @@
 
 - (void) getAlivibleInputMethods {
     [self.availableInputMethods removeAllObjects];
-    NSString *inputID;
+    
     NSMutableString *thisID;
     CFArrayRef availableInputs = TISCreateInputSourceList(NULL, false);
     NSUInteger count = CFArrayGetCount(availableInputs);

@@ -21,10 +21,10 @@
     return self;
 }
 
-- (id)initWithAppBundle:(NSString *)bundleId appUrl:(NSString *)url input:(NSString *)defaultInput {
+- (id)initWithAppBundle:(NSString *)bundleId appUrl:(NSString *)url input:(NSString *)defaultInputId {
     if (self = [super init]) {
         self.appUrl = url;
-        self.defaultInput = defaultInput;
+        self.defaultInput = defaultInputId;
         self.appBundleId = bundleId;
     }
     
@@ -48,7 +48,7 @@
     [keyBoardDefault setObject:info forKey:self.appBundleId];
     
     [prefs setObject:[NSKeyedArchiver archivedDataWithRootObject:(NSDictionary *)keyBoardDefault] forKey:keyBoardDefaultInputKey];
-    BOOL ok = [prefs synchronize];
+    [prefs synchronize];
     
 }
 
