@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "PopoverViewController.h"
 #import "GHDefaultManager.h"
+#import "Constant.h"
 
 #import <AppKit/AppKit.h>
 #import <Carbon/Carbon.h>
@@ -31,13 +32,9 @@ BOOL checkAccessibility()
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     checkAccessibility();
     _cpm = [[ChinesePinyinModifer alloc] init];
-    
-    [NSEvent addGlobalMonitorForEventsMatchingMask:NSFlagsChangedMask handler:^(NSEvent * event) {
-        NSUInteger flag = [event modifierFlags] & NSDeviceIndependentModifierFlagsMask;
-        if (flag == NSShiftKeyMask) {
-            [_cpm changePinyinStatus];
-        }
-    }];
+
+    [_cpm startListenShiftKey];
+
     
     NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
     [nc addObserver:self selector:@selector(handleAppActivateNoti:) name:NSWorkspaceDidActivateApplicationNotification object:NULL];
@@ -67,7 +64,7 @@ BOOL checkAccessibility()
 
 - (void)initStatusItem {
     statusItemSelected = false;
-    NSString *imageName = @"ghost_taiji_19";
+    NSString *imageName = @"ghost_dark_small";
     NSString *alternateImageName = @"ghost_color_19";
     NSImage *normalImage = [NSImage imageNamed:imageName];
     [normalImage setTemplate:YES];
@@ -127,6 +124,7 @@ BOOL checkAccessibility()
                     printf("Error %i\n", (int)err);
                 }
                 else {
+                    [self changeStatusItemImage:[inputId isEqualToString:CHINESE_PINYIN_INPUT_SOURCE_ID]];
                     _cpm.currentBaseInputSource = inputSource;
                 }
                 break;
@@ -161,6 +159,15 @@ BOOL checkAccessibility()
 
     if (targetInputId != NULL) {
         [self changeInputSource:targetInputId];
+    }
+}
+
+- (void) changeStatusItemImage:(BOOL)isLight {
+    if (isLight) {
+        statusItem.image = [NSImage imageNamed:@"ghost_white_small"];
+    }
+    else {
+        statusItem.image =[NSImage imageNamed:@"ghost_dark_small"];
     }
 }
 - (void) handleGHAppSelectedNoti:(NSNotification *)noti {

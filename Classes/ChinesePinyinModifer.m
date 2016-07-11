@@ -9,7 +9,7 @@
 #import "ChinesePinyinModifer.h"
 
 
-#define CHINESE_PINYIN_INPUT_SOURCE_ID @"com.apple.inputmethod.SCIM.ITABC"
+
 @implementation ChinesePinyinModifer
 @synthesize currentBaseInputSource;
 
@@ -19,6 +19,23 @@
         //do something;
     }
     return self;
+}
+
+- (void)startListenShiftKey
+{
+    [NSEvent addGlobalMonitorForEventsMatchingMask:NSFlagsChangedMask handler:^(NSEvent * event) {
+        NSUInteger flag = [event modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+        BOOL shiftIsDown = !!(flag & NSShiftKeyMask);
+        if (shiftIsDown) {
+            _shift_down_t = (time_t)[[NSDate date] timeIntervalSince1970];
+        }
+        else {
+            time_t now = (time_t)[[NSDate date] timeIntervalSince1970];
+            if(now - _shift_down_t < 1) {
+                [self changePinyinStatus];
+            }
+        }
+    }];
 }
 
 - (NSString *)getCurrentBaseInputSourceId
