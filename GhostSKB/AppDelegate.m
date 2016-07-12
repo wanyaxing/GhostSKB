@@ -124,7 +124,7 @@ BOOL checkAccessibility()
                     printf("Error %i\n", (int)err);
                 }
                 else {
-                    [self changeStatusItemImage:[inputId isEqualToString:CHINESE_PINYIN_INPUT_SOURCE_ID]];
+//                    [self changeStatusItemImage:[inputId isEqualToString:CHINESE_PINYIN_INPUT_SOURCE_ID]];
                     _cpm.currentBaseInputSource = inputSource;
                 }
                 break;
