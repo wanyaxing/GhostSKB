@@ -26,20 +26,20 @@
 @synthesize defaultKeyBoards;
 @synthesize availableInputMethods;
 
+//This method will be invoked after viewDidLoad every time when view show up
 - (void)viewWillAppear {
     [super viewWillAppear];
-//    NSLog(@"view will appear");
-    
+    [self getAlivibleInputMethods];
 }
 
+// This method only be invoked once
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    NSLog(@"view did load");
+    
     self.availableInputMethods = [[NSMutableArray alloc] initWithCapacity:1];
     [self getAlivibleInputMethods];
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    //    _tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
     _tableView.headerView = NULL;
     self.defaultKeyBoards = [[GHDefaultManager getInstance] getDefaultKeyBoards];
     
@@ -49,7 +49,8 @@
 }
 
 - (void) getAlivibleInputMethods {
-    NSString *inputID;
+    [self.availableInputMethods removeAllObjects];
+    
     NSMutableString *thisID;
     CFArrayRef availableInputs = TISCreateInputSourceList(NULL, false);
     NSUInteger count = CFArrayGetCount(availableInputs);
@@ -61,17 +62,22 @@
         CFStringRef type = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceCategory);
         if (!CFStringCompare(type, kTISCategoryKeyboardInputSource, 0)) {
             thisID = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID));
+            NSString *canSelectStr = (__bridge NSString *)TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceIsSelectCapable);
+            Boolean canSelect = [canSelectStr boolValue];
+            if (!canSelect) {
+                continue;
+            }
             
             NSMutableString *inputName = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName));
+            
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[thisID description],@"id", [inputName description], @"inputName", nil];
             
             [self.availableInputMethods addObject:dict];
             [_inputIdInfo setObject:[NSString stringWithFormat:@"%lu", [self.availableInputMethods count] - 1] forKey:[thisID description]];
         }
     }
-    
-
 }
+
 
 #pragma mark - table view datasource
 

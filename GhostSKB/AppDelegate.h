@@ -8,16 +8,21 @@
 
 #import <Cocoa/Cocoa.h>
 #import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+#import "ChinesePinyinModifer.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSMenuDelegate> {
     @private
     NSStatusBarButton *_statusBarButton;
+    NSMutableString *_lastAppInputSourceId;
+    ChinesePinyinModifer *_cpm;
     @public
     NSStatusItem *statusItem;
     BOOL statusItemSelected;
     NSPopover* popover;
     __weak IBOutlet NSMenu *imenu;
 }
+
 
 @end
 
