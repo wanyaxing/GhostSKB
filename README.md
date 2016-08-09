@@ -11,21 +11,19 @@ Mac OS X 10.8 or above
 ## Features
 
 1. Automatically change inputmethod by Application.
-2. Remember App`s last used input method with expired time(20s)
+2. Remember App`s last used input method with expired time(Users can customize it).
 
 # Install 
 
-1. Downloads: [GhostSKB releases](https://github.com/dingmingxin/GhostSKB/releases) get the lastest version.
-2. unzip the release version and `mv /path/to/GhostSKB.app /Applications`
+[GhostSKB in Mac AppStore](https://itunes.apple.com/us/app/ghostskb/id1134384859?l=zh&ls=1&mt=12)
 
 # Screenshot
 
-![screenshot of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/screenshot.png)
+![screenshot 1 of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/screenshot-1.png)
 
-# Todo
-
-1. Add setting interface
+![screenshot 2 of ghostkbd](https://github.com/dingmingxin/GhostSKB/blob/master/Resources/screenshot-2.png)
 
 # Known Issues
 
 1. This app will be conflicted with OS X setting "Allow a different one for each document".
+2. For unkown reason, GhostSKB works not well with latest(2016 version) Microsoft Office apps(include Word,Excel...). Office 2011 version is ok.

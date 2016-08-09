@@ -10,9 +10,9 @@
 #import "GHInputDefaultCellView.h"
 #import "GHInputAddDefaultCellView.h"
 #import "GHDefaultManager.h"
-//#import "AppListController.h"
+#import "GHSettingWindowControler.h"
 #import "GHDefaultInfo.h"
-
+#import "AppDelegate.h"
 #import <Foundation/Foundation.h>
 #import <Carbon/Carbon.h>
 
@@ -35,14 +35,14 @@
 // This method only be invoked once
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.availableInputMethods = [[NSMutableArray alloc] initWithCapacity:1];
     [self getAlivibleInputMethods];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.headerView = NULL;
     self.defaultKeyBoards = [[GHDefaultManager getInstance] getDefaultKeyBoards];
-    
+
     //init app popover
     self.appPopOver = [[NSPopover alloc] init];
     self.appPopOver.behavior = NSPopoverBehaviorTransient;
@@ -50,13 +50,14 @@
 
 - (void) getAlivibleInputMethods {
     [self.availableInputMethods removeAllObjects];
-    
+
     NSMutableString *thisID;
     CFArrayRef availableInputs = TISCreateInputSourceList(NULL, false);
     NSUInteger count = CFArrayGetCount(availableInputs);
     if (_inputIdInfo == NULL) {
         _inputIdInfo = [[NSMutableDictionary alloc] initWithCapacity:3];
     }
+    int inputMethodCount = 0;
     for (int i = 0; i < count; i++) {
         TISInputSourceRef inputSource = (TISInputSourceRef)CFArrayGetValueAtIndex(availableInputs, i);
         CFStringRef type = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceCategory);
@@ -67,13 +68,14 @@
             if (!canSelect) {
                 continue;
             }
-            
+
             NSMutableString *inputName = (__bridge NSMutableString *)(TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName));
-            
+
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[thisID description],@"id", [inputName description], @"inputName", nil];
-            
+
             [self.availableInputMethods addObject:dict];
-            [_inputIdInfo setObject:[NSString stringWithFormat:@"%lu", [self.availableInputMethods count] - 1] forKey:[thisID description]];
+            [_inputIdInfo setObject:[NSString stringWithFormat:@"%d", inputMethodCount] forKey:[thisID description]];
+            inputMethodCount++;
         }
     }
 }
@@ -88,16 +90,16 @@
 
 // for view-based tableview
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    
+
     if (row < [self.defaultKeyBoards count]) {
         GHInputAddDefaultCellView *view = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         GHDefaultInfo *defaultInfo = [self.defaultKeyBoards objectAtIndex:row];
-        
+
         if (defaultInfo.defaultInput == NULL) {
             NSString *defaultInputId = (NSString *)[[self.availableInputMethods objectAtIndex:0] objectForKey:@"id"];
             defaultInfo.defaultInput = defaultInputId;
         }
-        
+
         if (defaultInfo.appUrl != NULL && defaultInfo.appBundleId != NULL){
             NSURL *appUrl = [NSURL fileURLWithPath:defaultInfo.appUrl];
             NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[appUrl path]];
@@ -111,7 +113,7 @@
             view.appName.stringValue = @"";
         }
 
-        
+
         view.row = row;
         if ([view.menu numberOfItems] <= 0) {
             for (int i=0; i<[self.availableInputMethods count]; i++) {
@@ -123,13 +125,13 @@
         }
         int inputIndex = [[_inputIdInfo objectForKey:defaultInfo.defaultInput] intValue];
         [view.inputMethodsPopButon selectItemAtIndex:inputIndex];
-        
+
         return view;
-        
+
     }
     else {
         GHInputDefaultCellView *view = [tableView makeViewWithIdentifier:@"BottomCell" owner:self];
-        
+
         return view;
     }
 
@@ -151,7 +153,7 @@
         NSLog(@"有空列表项");
         return;
     }
-    
+
     GHDefaultInfo *info = [[GHDefaultInfo alloc] init];
     [self.defaultKeyBoards addObject:info];
     [self.tableView reloadData];
@@ -160,14 +162,14 @@
 - (IBAction)onRemoveDefault:(id)sender {
     NSInteger row = [_tableView rowForView:(NSView *)sender];
     GHDefaultInfo *info = [self.defaultKeyBoards objectAtIndex:row];
-    
+
     [[GHDefaultManager getInstance] removeAppInputDefault:info.appBundleId];
     [self.defaultKeyBoards removeObjectAtIndex:row];
     [self.tableView reloadData];
 }
 
 - (IBAction)onAppButtonClick:(id)sender {
-    
+
     NSButton *button = (NSButton *)sender;
     GHInputAddDefaultCellView *cellView = (GHInputAddDefaultCellView *)[button superview];
     _currentSelectRow = cellView.row;
@@ -208,27 +210,27 @@
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO]; // yes if more than one dir is allowed
-    
+
     NSInteger clicked = [panel runModal];
-    
+
     if (clicked == NSFileHandlingPanelOKButton) {
         for (NSURL *url in [panel URLs]) {
-            
+
             NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
             _currentSelectedCell.appButton.image = icon;
             NSBundle *selectedAppBundle =[NSBundle bundleWithURL:url];
             NSString *bundleIdentifier = [selectedAppBundle bundleIdentifier];
             NSString *appName = [[NSFileManager defaultManager] displayNameAtPath: [selectedAppBundle bundlePath]];
             _currentSelectedCell.appName.stringValue = appName;
-            
+
             NSString *selectedInputId = [[_currentSelectedCell.inputMethodsPopButon selectedItem] keyEquivalent];
-            
+
             GHDefaultInfo *info = [self.defaultKeyBoards objectAtIndex:_currentSelectRow];
             info.appUrl = [url path];
             info.appBundleId = bundleIdentifier;
             info.defaultInput = selectedInputId;
             [info saveToDefaultStorage];
-            
+
             [self.defaultKeyBoards sortUsingComparator:^NSComparisonResult(id  _Nonnull a, id  _Nonnull b) {
                 GHDefaultInfo *aInfo = (GHDefaultInfo *)a;
                 GHDefaultInfo *bInfo = (GHDefaultInfo *)b;
@@ -239,7 +241,7 @@
             // post application
             NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:url, @"appUrl", nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"GH_APP_SELECTED" object:NULL userInfo:userInfo];
-            
+
             break;
         }
     }
@@ -257,7 +259,9 @@
     [[NSApplication sharedApplication] terminate:self];
 }
 
-- (IBAction)onAboutPress:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://dingmingxin.github.io/blog/2016/07/04/ghostskb/"]];
+- (IBAction)onSettingPressed:(id)sender {
+    AppDelegate *delegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+    [delegate showSettingWindow];
 }
+
 @end
